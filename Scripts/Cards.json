@@ -1,0 +1,47 @@
+{
+	"DefaultDefenseCard": {
+	  "card_id": "DefaultDefenseCardID",
+	  "name": "DefaultDefenseCard",
+	  "img": "res://Pic/original.jpg",
+	  "cost": 1,
+	  "sp": 0,
+	  "raw_description": "Защищает пока что на 5 хп"
+	},
+	"DefaultAttackCard": {
+	  "card_id": "DefaultAttackCardID",
+	  "name": "DefaultAttackCard",
+	  "img": "res://Pic/attack.png",
+	  "cost": 1,
+	  "sp": 0,
+	  "raw_description": "Наносит пока что 5 урона"
+	}
+  }
+public static T FromJson<T>(string json) where T : AbstractCards, new()
+		{
+			var cardData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(json);
+			var cardType = typeof(T);
+			T card = new T();
+			
+			foreach (var cardEntry in cardData)
+			{
+				if (cardEntry.Key == cardType.Name)
+				{
+					var cardProperties = cardEntry.Value;
+
+					PropertyInfo idProperty = typeof(T).GetProperty("ID");
+					PropertyInfo nameProperty = typeof(T).GetProperty("NAME");
+					PropertyInfo imgProperty = typeof(T).GetProperty("IMG");
+					PropertyInfo costProperty = typeof(T).GetProperty("COST");
+					PropertyInfo spProperty = typeof(T).GetProperty("SP");
+					PropertyInfo rawDescriptionProperty = typeof(T).GetProperty("RAWDESCRIPTION");
+
+					idProperty.SetValue(card, cardProperties["card_id"]);
+					nameProperty.SetValue(card, cardProperties["name"]);
+					imgProperty.SetValue(card, cardProperties["img"]);
+					costProperty.SetValue(card, cardProperties["cost"]);
+					spProperty.SetValue(card, cardProperties["sp"]);
+					rawDescriptionProperty.SetValue(card, cardProperties["raw_description"]);
+					break;
+				}
+		}
+	}
