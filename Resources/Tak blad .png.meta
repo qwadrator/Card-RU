@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 206c5220118414a4697d161e651e9d24
+guid: d994b1cd38f0558449203ff8002540a8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4084040419430807867
-    second: cards-face-part2_0
-  - first:
-      213: 5536929056150066590
-    second: cards-face-part2_1
+      213: -664865099965218488
+    second: Tak blad _0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cards-face-part2_0
+      name: Tak blad _0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 244
-        width: 53
-        height: 52
+        x: 0
+        y: 0
+        width: 479
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b39b2809f1d6da830800000000000000
-      internalID: 4084040419430807867
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cards-face-part2_1
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 139
-        width: 69
-        height: 69
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e951d5204af17dc40800000000000000
-      internalID: 5536929056150066590
+      spriteID: 841c405d6bce5c6f0800000000000000
+      internalID: -664865099965218488
       vertices: []
       indices: 
       edges: []

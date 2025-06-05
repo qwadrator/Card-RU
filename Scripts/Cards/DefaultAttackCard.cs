@@ -5,7 +5,7 @@ namespace Cards {
 	public class DefaultAttackCard : AbstractCards, IActionOne
 	{
 		public int DAMAGE = 7;
-		public DefaultAttackCard(): base("DeffaultAttackCardID", "DeffaultAttackCard", "res://Pic/backcard23.png", 0, "Наносит пока что 7 урона", CardType.ATTACK, CardTarget.ENEMY)
+		public DefaultAttackCard(): base("DeffaultAttackCardID", "DeffaultAttackCard", "Bear", 0, "Наносит пока что 7 урона", CardType.ATTACK, CardTarget.ENEMY)
 		{   
 		}
 		/*
