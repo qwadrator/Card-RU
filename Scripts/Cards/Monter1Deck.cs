@@ -6,10 +6,5 @@ namespace Cards {
 			this.CARDS.Add(new MonsterCard());
 			this.CARDS.Add(new MonsterCard2());
 		}
-		public void Print(){
-			foreach(var card in this.CARDS){
-				card.Print();
-			}
-		}
 	}
 }

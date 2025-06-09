@@ -3,36 +3,69 @@ using System;
 using System.Linq;
 
 namespace Cards {
-	public abstract class AbstractDeck{
-		
+	public abstract class AbstractDeck
+	{
+
 		protected Owner OWN { get; set; }
-		
-		public List<AbstractCards> CARDS{ get; set; }
-		
-		public List<AbstractCards> TEMPCARDS{ get;  set; }
-		
-		protected AbstractDeck(Owner OWN) {
+
+		public List<AbstractCards> CARDS { get; set; }
+		protected AbstractDeck(Owner OWN)
+		{
 			this.CARDS = new List<AbstractCards>();
-			TEMPCARDS = CARDS;
 			this.SetValues(OWN);
-		}  
-		public void DrawCard(AbstractCards card){
-			if(CARDS != null){
-				int index = TEMPCARDS.FindIndex(c => c.NAME == card.NAME);
-				if (index != -1) {
-					this.TEMPCARDS.Remove(TEMPCARDS[index]);
-				}
-				else {
-					System.Console.WriteLine("The card does not exist");
-				}
-			}
-		}
-		public void Shuffle() {
-			this.TEMPCARDS = CARDS.OrderBy(a => Guid.NewGuid()).ToList();
 		}
 
-		protected void SetValues(Owner Own){
+		public void Shuffle()
+		{
+			this.CARDS = CARDS.OrderBy(a => Guid.NewGuid()).ToList();
+		}
+
+		protected void SetValues(Owner Own)
+		{
 			this.OWN = Own;
+		}
+		public void AddCard(AbstractCards card) {
+			this.CARDS.Add(card);
+		}
+		public int Count()
+		{
+			int count = 0;
+			foreach (AbstractCards Card in CARDS)
+			{
+				count++;
+			}
+			return count;
+		}
+		public void RemoveAllCards()
+		{
+			if (CARDS != null)
+			{
+				CARDS.Clear();
+			}
+		}
+		public bool IsNotNull()
+		{
+			if (CARDS == null || CARDS.Count == 0) return false;
+			else return true; ;
+		}
+		public void RemoveCard(AbstractCards card)
+		{
+			int index = CARDS.FindIndex(c => c.NAME == card.NAME);
+			if (index != -1)
+			{
+				this.CARDS.Remove(CARDS[index]);
+			}
+			else
+			{
+				System.Console.WriteLine("The card does not exist");
+			}
+
+		}
+
+		public void Print(){
+			foreach(var card in this.CARDS){
+				card.Print();
+			}
 		}
 	}
 }

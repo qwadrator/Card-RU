@@ -11,7 +11,7 @@ public class ConvasButtons : MonoBehaviour
             Continue.SetActive(true);                                   //настройки сохраняются при выходе из игры
         }
     }
-    public void NewGame()
+    public void ChooseCharacter()
     {
         SceneManager.LoadScene("ChooseCharacter");
     }
