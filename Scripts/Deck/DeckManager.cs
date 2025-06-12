@@ -106,7 +106,9 @@ public class DeckManager : MonoBehaviour
             GameObject.Destroy(DECK.transform.GetChild(i).gameObject);
         }
     }
-    public void DeckHeroDrow() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKDRAW);
-    public void DeckHeroBurn() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKBURN);
-    public void DeckHeroDiscard() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKDISCARD);
+    public void HeroDeckDrow() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKDRAW);
+    public void HeroDeckBurn() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKBURN);
+    public void HeroDeckDiscard() => ToggleDeckView(SelectedGameCharacter.Hero?.DECKDISCARD);
+    public void EnemyDeckDrow() => ToggleDeckView(Enemies.Enemy?.DECKDRAW);
+    public void EnemyDeckDiscard() => ToggleDeckView(Enemies.Enemy?.DECKDISCARD);
 }

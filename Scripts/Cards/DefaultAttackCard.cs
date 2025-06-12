@@ -18,5 +18,22 @@ namespace Cards {
 		{
 			return new DefaultAttackCard() { DAMAGE = this.DAMAGE };
 		}
+		public override void SpMax()
+		{
+			this.DAMAGE += 3;
+			DescriptionChange();
+		}
+		public override void SpMin()
+		{
+			this.DAMAGE += 5;
+			DescriptionChange();
+		}
+        public override void Use()
+        {
+        }
+		public void DescriptionChange()
+		{
+			rawDescriptionChange("Наносит: " + DAMAGE + "урона");
+		}
     }
 }

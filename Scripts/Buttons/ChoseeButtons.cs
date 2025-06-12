@@ -9,6 +9,7 @@ public class ChoseeButtons : MonoBehaviour
     public Text HeroText;
     public Text MaxHp;
     public Image Hero;
+    public Sprite EnemySprite;
     public Image Artifact;
     public Sprite SpriteHero;
     public List<AbstractGameCharacter> GameCharacters;
@@ -26,6 +27,8 @@ public class ChoseeButtons : MonoBehaviour
         Hero.sprite = SpriteHero;
         SelectedGameCharacter.Hero = GameCharacters[0];
         SelectedGameCharacter.HeroSprite = SpriteHero;
+        Enemies.Enemy = new Monster1();
+        Enemies.EnemySprite = EnemySprite;
     }
     public void Hero2Ckilck()
     {
@@ -34,5 +37,7 @@ public class ChoseeButtons : MonoBehaviour
         Hero.sprite = SpriteHero;
         SelectedGameCharacter.Hero = GameCharacters[1];
         SelectedGameCharacter.HeroSprite = SpriteHero;
+        Enemies.Enemy = new Monster1();
+        Enemies.EnemySprite = EnemySprite;
     }
 }

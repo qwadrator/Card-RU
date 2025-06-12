@@ -36,15 +36,16 @@ public class CardDisplayManager : MonoBehaviour
     private void SetupCardUI(Transform cardTransform, AbstractCard card)
     {
         Text description = cardTransform.Find("Description")?.GetComponent<Text>();
+        Text SP = cardTransform.Find("SP")?.GetComponent<Text>();
         Image cardImage = cardTransform.Find("CardPicture")?.GetComponent<Image>();
 
-        if (description == null || cardImage == null)
+        if (description == null || cardImage == null || SP == null)
         {
             Debug.LogError("Не найдены компоненты в префабе!");
             Destroy(cardTransform.gameObject);
             return;
         }
-
+        SP.text = card.SP.ToString();
         description.text = card.RAWDESCRIPTION;
         Sprite loadedSprite = Resources.Load<Sprite>(card.IMG);
         

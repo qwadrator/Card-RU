@@ -1,6 +1,8 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
+using System;
+using JetBrains.Annotations;
 namespace Cards {
 	public abstract class AbstractCard
 	{
@@ -41,6 +43,25 @@ namespace Cards {
 		{
 			System.Console.WriteLine(this.NAME + " SP: " + this.SP + " Описание: " + this.RAWDESCRIPTION);
 		}
-	 public abstract AbstractCard Copy();
+		public void SPchange(int count)
+		{
+			this.SP += count;
+			if (this.SP >= 50)
+			{
+				SpMax();
+			}
+			else if (this.SP <= 50)
+			{
+				SpMin();
+			}
+		}
+		public void rawDescriptionChange(String Str)
+		{
+			this.RAWDESCRIPTION = Str;
+		}
+		public abstract void SpMax();
+		public abstract void SpMin();
+		public abstract void Use();
+	 	public abstract AbstractCard Copy();
 	}
 }

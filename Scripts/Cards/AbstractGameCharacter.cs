@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.XR;
 using Unity.VisualScripting;
+using System.Collections;
 
 namespace Cards {
 	public abstract partial class AbstractGameCharacter{
@@ -56,10 +57,18 @@ namespace Cards {
 		{
 			for (int i = 0; i < HANDDRAW; i++)
 			{
+				if (this.DECK.OWN == Owner.Player || EventManager.OnCardDraw == null || EventManager.OnCardDraw.Count == 0)
+				{
+					for (int j = EventManager.OnCardDraw.Count - 1; j >= 0; j--)
+					{
+						EventManager.OnCardDraw[j]?.Invoke();
+					}
+				}
 				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
 				if (DECKDRAW.IsNotNull() || DECKDRAW.CARDS.Count != 0)
 				{
 					HAND.AddCard(DECKDRAW.CARDS.Last());
+					//Debug.Log("СП последней карты:" + DECKDRAW.CARDS.Last().SP);
 					DECKDRAW.CARDS.Remove(DECKDRAW.CARDS.Last());
 				}
 				else
@@ -78,6 +87,7 @@ namespace Cards {
 				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
 			}
 		}
+		public abstract void HeroEvents();
 		public void GainBlock(int count)
 		{
 			this.BLOCK += count;

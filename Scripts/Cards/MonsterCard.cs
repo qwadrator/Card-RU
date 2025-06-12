@@ -4,7 +4,7 @@ namespace Cards {
 	public class MonsterCard : AbstractCard, IActionOne
 	{
 		public int DAMAGE = 5;
-		public MonsterCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "res://Pic/backcard23.png", 0, "", CardType.ATTACK, CardTarget.ENEMY)
+		public MonsterCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "Red Button", 0, "Дает 5 защиты", CardType.ATTACK, CardTarget.ENEMY)
 		{
 		}
 
@@ -16,5 +16,16 @@ namespace Cards {
 		{
 			return new MonsterCard() { DAMAGE = this.DAMAGE };
 		}
+		public override void SpMax()
+		{
+			this.DAMAGE += 3;
+		}
+		public override void SpMin()
+		{
+			this.DAMAGE += 5;
+		}
+		public override void Use()
+        {
+        }
 	}
 }

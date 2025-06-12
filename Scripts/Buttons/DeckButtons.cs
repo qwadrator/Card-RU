@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class DeckButtons : MonoBehaviour
 {
-    public void OnDeckHeroDrowClicked() => DeckFacade.Instance.HeroDrowClicked();
-    public void OnDeckHeroBurnClicked() => DeckFacade.Instance.HeroBurnClicked();
-    public void OnDeckHeroDiscardClicked() => DeckFacade.Instance.HeroDiscardClicked();
+    public void OnHeroDeckDrowClicked() => DeckFacade.Instance.HeroDrowClicked();
+    public void OnHeroDeckBurnClicked() => DeckFacade.Instance.HeroBurnClicked();
+    public void OnHeroDeckDiscardClicked() => DeckFacade.Instance.HeroDiscardClicked();
+    public void OnEnemyDeckDrowClicked() => DeckFacade.Instance.EnemyDrowClicked();
+    public void OnEnemyDiscardClicked() => DeckFacade.Instance.EnemyDiscardClicked();
 
 }

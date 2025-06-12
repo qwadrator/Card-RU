@@ -4,6 +4,8 @@ namespace Cards {
 		{
 			this.CARDS.Add(new MonsterCard());
 			this.CARDS.Add(new MonsterCard());
+			this.CARDS.Add(new MonsterCard());
+			this.CARDS.Add(new MonsterCard2());
 			this.CARDS.Add(new MonsterCard2());
 		}
 	}

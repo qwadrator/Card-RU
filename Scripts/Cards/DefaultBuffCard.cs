@@ -16,5 +16,14 @@ namespace Cards{
 		{
 			return new DefaultBuffCard();
 		}
+		public override void SpMax()
+		{
+		}
+		public override void Use()
+        {
+        }
+        public override void SpMin()
+		{
+		}
 	}
 }

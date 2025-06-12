@@ -15,5 +15,22 @@ namespace Cards{
 		{
 			return new DefaultDefenseCard() { BLOCK = this.BLOCK };
 		}
+		public override void SpMax()
+		{
+			this.BLOCK += 3;
+			DescriptionChange();
+		}
+		public override void SpMin()
+		{
+			this.BLOCK += 5;
+			DescriptionChange();
+		}
+		public override void Use()
+        {
+        }
+		public void DescriptionChange()
+		{
+			rawDescriptionChange("Защищает на: " + BLOCK + "хп");
+		}
 	}
 }

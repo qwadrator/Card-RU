@@ -151,6 +151,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 922087486}
   - {fileID: 1728283799}
   - {fileID: 1691732734}
   - {fileID: 1089548674}
@@ -270,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 102053287}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.96896, y: -71.408516, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -278,6 +279,7 @@ Transform:
   - {fileID: 1249754521}
   - {fileID: 1839511239}
   - {fileID: 1355941826}
+  - {fileID: 174681607}
   m_Father: {fileID: 92683936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &117101534
@@ -384,10 +386,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eccd336cf2d85b04ea039fc219d358d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 953443348}
-  Hp: {fileID: 1809976607}
+  HandHero: {fileID: 953443348}
+  HpHero:
+  - {fileID: 1809976607}
+  - {fileID: 922087488}
   HeroSprite: {fileID: 928502353}
   cardPrefab: {fileID: 4570497557166583784, guid: 643e00c259e637b4e9e7186a5b77d58a, type: 3}
+  HpEnemy: {fileID: 174681609}
+  EnemySprite: {fileID: 1178197680}
+  HandEnemy: {fileID: 1355941825}
   cardSpacing: 300
 --- !u!4 &138650192
 Transform:
@@ -404,6 +411,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &174681606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174681607}
+  - component: {fileID: 174681608}
+  - component: {fileID: 174681609}
+  m_Layer: 0
+  m_Name: HPEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &174681607
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174681606}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 9720}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 102053288}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 471, y: -122}
+  m_SizeDelta: {x: 160, y: 45}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &174681608
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174681606}
+  m_CullTransparentMesh: 1
+--- !u!114 &174681609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174681606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 100/100
 --- !u!1 &219943976
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,6 +804,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1150712429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &922087485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922087486}
+  - component: {fileID: 922087487}
+  - component: {fileID: 922087488}
+  m_Layer: 0
+  m_Name: HPHero
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &922087486
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922087485}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 92683936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -550, y: -114}
+  m_SizeDelta: {x: 160, y: 45}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &922087487
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922087485}
+  m_CullTransparentMesh: 1
+--- !u!114 &922087488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922087485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 100/100
 --- !u!1 &928502352
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +955,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -549, y: -20.36}
+  m_AnchoredPosition: {x: -550, y: 100}
   m_SizeDelta: {x: 260, y: 330}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &951160060
@@ -1127,7 +1292,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1089548678}
         m_TargetAssemblyTypeName: DeckButtons, Assembly-CSharp
-        m_MethodName: OnDeckHeroBurnClicked
+        m_MethodName: OnHeroDeckBurnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1228,7 +1393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 466, y: 59}
+  m_AnchoredPosition: {x: 466, y: 100}
   m_SizeDelta: {x: 260, y: 330}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1178197680
@@ -1334,6 +1499,7 @@ MonoBehaviour:
   - {fileID: 102053287}
   - {fileID: 928502352}
   - {fileID: 953443348}
+  - {fileID: 922087485}
 --- !u!1 &1249754520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,6 +1512,7 @@ GameObject:
   - component: {fileID: 1249754524}
   - component: {fileID: 1249754523}
   - component: {fileID: 1249754522}
+  - component: {fileID: 1249754525}
   m_Layer: 5
   m_Name: DeckDrowEnemy
   m_TagString: Untagged
@@ -1369,7 +1536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 277, y: 171}
+  m_AnchoredPosition: {x: 287, y: -13}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249754522
@@ -1416,9 +1583,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DeckManager, Assembly-CSharp
-        m_MethodName: DeckHeroDrow
+      - m_Target: {fileID: 1249754525}
+        m_TargetAssemblyTypeName: DeckButtons, Assembly-CSharp
+        m_MethodName: OnEnemyDeckDrowClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1466,6 +1633,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249754520}
   m_CullTransparentMesh: 1
+--- !u!114 &1249754525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249754520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e002ff408ce1346b19f0176b83e925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1286761111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,15 +1893,15 @@ RectTransform:
   m_GameObject: {fileID: 1355941825}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 102053288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 459.031, y: 290.4085}
-  m_SizeDelta: {x: 261.99, y: 124.79}
+  m_AnchoredPosition: {x: 441, y: 315}
+  m_SizeDelta: {x: 540, y: 185.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1355941827
 MonoBehaviour:
@@ -2033,7 +2212,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1691732738}
         m_TargetAssemblyTypeName: DeckButtons, Assembly-CSharp
-        m_MethodName: OnDeckHeroDiscardClicked
+        m_MethodName: OnEnemyDiscardClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2219,7 +2398,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1728283804}
         m_TargetAssemblyTypeName: DeckButtons, Assembly-CSharp
-        m_MethodName: OnDeckHeroDrowClicked
+        m_MethodName: OnHeroDeckDrowClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2505,6 +2684,7 @@ GameObject:
   - component: {fileID: 1839511242}
   - component: {fileID: 1839511241}
   - component: {fileID: 1839511240}
+  - component: {fileID: 1839511243}
   m_Layer: 5
   m_Name: DeckDiscardEnemy
   m_TagString: Untagged
@@ -2528,7 +2708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 648, y: 171}
+  m_AnchoredPosition: {x: 650, y: -13}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1839511240
@@ -2575,9 +2755,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DeckManager, Assembly-CSharp
-        m_MethodName: DeckHeroDrow
+      - m_Target: {fileID: 1839511243}
+        m_TargetAssemblyTypeName: DeckButtons, Assembly-CSharp
+        m_MethodName: OnEnemyDiscardClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2625,6 +2805,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839511238}
   m_CullTransparentMesh: 1
+--- !u!114 &1839511243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839511238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e002ff408ce1346b19f0176b83e925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1972226772
 GameObject:
   m_ObjectHideFlags: 0

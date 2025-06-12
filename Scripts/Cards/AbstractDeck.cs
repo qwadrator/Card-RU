@@ -6,7 +6,7 @@ namespace Cards {
 	public abstract class AbstractDeck
 	{
 
-		protected Owner OWN { get; set; }
+		public Owner OWN { get; set; }
 
 		public List<AbstractCard> CARDS { get; set; }
 		protected AbstractDeck(Owner OWN)
