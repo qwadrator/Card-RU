@@ -8,10 +8,10 @@ namespace Cards {
 
 		protected Owner OWN { get; set; }
 
-		public List<AbstractCards> CARDS { get; set; }
+		public List<AbstractCard> CARDS { get; set; }
 		protected AbstractDeck(Owner OWN)
 		{
-			this.CARDS = new List<AbstractCards>();
+			this.CARDS = new List<AbstractCard>();
 			this.SetValues(OWN);
 		}
 
@@ -24,13 +24,14 @@ namespace Cards {
 		{
 			this.OWN = Own;
 		}
-		public void AddCard(AbstractCards card) {
+		public void AddCard(AbstractCard card)
+		{
 			this.CARDS.Add(card);
 		}
 		public int Count()
 		{
 			int count = 0;
-			foreach (AbstractCards Card in CARDS)
+			foreach (AbstractCard Card in CARDS)
 			{
 				count++;
 			}
@@ -48,7 +49,7 @@ namespace Cards {
 			if (CARDS == null || CARDS.Count == 0) return false;
 			else return true; ;
 		}
-		public void RemoveCard(AbstractCards card)
+		public void RemoveCard(AbstractCard card)
 		{
 			int index = CARDS.FindIndex(c => c.NAME == card.NAME);
 			if (index != -1)
@@ -62,8 +63,10 @@ namespace Cards {
 
 		}
 
-		public void Print(){
-			foreach(var card in this.CARDS){
+		public void Print()
+		{
+			foreach (var card in this.CARDS)
+			{
 				card.Print();
 			}
 		}

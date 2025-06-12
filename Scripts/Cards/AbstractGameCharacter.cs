@@ -4,6 +4,7 @@ using Scripts.Effects;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.XR;
+using Unity.VisualScripting;
 
 namespace Cards {
 	public abstract partial class AbstractGameCharacter{
@@ -12,10 +13,10 @@ namespace Cards {
 		public int TEMPHP{ get; protected set; }
 		public int BLOCK = 0;
 		public AbstractDeck DECK { get; protected set; }
-		public AbstractDeck HAND{ get; set; } = new SomeDeck(Owner.Player);
-		public AbstractDeck DECKDRAW { get; set; } = new SomeDeck(Owner.Player);
-		public AbstractDeck DECKDISCARD { get; set; } = new SomeDeck(Owner.Player);
-		public AbstractDeck DECKBURN { get;  set; } = new SomeDeck(Owner.Player);
+		public AbstractDeck HAND{ get; set; }
+		public AbstractDeck DECKDRAW { get; set; } 
+		public AbstractDeck DECKDISCARD { get; set; }
+		public AbstractDeck DECKBURN { get;  set; }
 		public int HANDDRAW  { get; protected set; }
 		public List<Effects> ActiveEffects { get; set; }
 		public string Description { get; set; }
@@ -25,8 +26,14 @@ namespace Cards {
 			this.NAME = name;
 			this.MAXHP = Hp;
 			this.TEMPHP = Hp;
-			this.DECK = deck;
 			this.HANDDRAW = HandDraw;
+			this.DECK = new SomeDeck(Owner.Player);
+			this.DECK.CARDS.AddRange(deck.CARDS); 
+			this.DECKDRAW = new SomeDeck(Owner.Player);
+			this.HAND = new SomeDeck(Owner.Player);
+			this.DECKDISCARD = new SomeDeck(Owner.Player);
+			this.DECKBURN = new SomeDeck(Owner.Player);
+			
 			ActiveEffects = new List<Effects>();
 		}
 		public void Damage(int D) {
@@ -45,13 +52,13 @@ namespace Cards {
 				throw new ArgumentException("Effect is not compatible with characters");
 			}
 		}
-		public void Draw(int count)
+		public void Draw()
 		{
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < HANDDRAW; i++)
 			{
-				if (DECKDRAW.IsNotNull() || DECKDRAW.CARDS.Count !=0 )
+				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+				if (DECKDRAW.IsNotNull() || DECKDRAW.CARDS.Count != 0)
 				{
-					Debug.Log(i);
 					HAND.AddCard(DECKDRAW.CARDS.Last());
 					DECKDRAW.CARDS.Remove(DECKDRAW.CARDS.Last());
 				}
@@ -68,6 +75,7 @@ namespace Cards {
 						Debug.LogError("Ошибка добора обратитесь к создателям богам нашим");
 					}
 				}
+				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
 			}
 		}
 		public void GainBlock(int count)

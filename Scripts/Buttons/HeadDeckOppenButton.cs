@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeckOppenButton : MonoBehaviour
+public class HeadDeckOppenButton : MonoBehaviour
 {
     public GameObject Deck;
     public GameObject Battle;

@@ -16,26 +16,43 @@ public class BattleControl : MonoBehaviour
     public float cardSpacing = 100f;
     void Start()
     {
-        HeroCheck();
+        CharacterCheck();
         BattleStartTrigger();
         TurnHero();
     }
-    public void HeroCheck()
+    public void CharacterCheck()
+    {
+        CheckHero();
+        CreateEnemy();
+        
+    }
+    public void CheckHero()
     {
         if (SelectedGameCharacter.Hero != null)
         {
             Hp.text = SelectedGameCharacter.Hero.MAXHP.ToString();
             HeroSprite.sprite = SelectedGameCharacter.HeroSprite;
-            SelectedGameCharacter.Hero.DECKDRAW = SelectedGameCharacter.Hero.DECK;
+
+            SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
+           SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
         }
         else
         {
             SelectedGameCharacter.Hero = new Hero1();
-            Hp.text = SelectedGameCharacter.Hero.MAXHP.ToString();
-            SelectedGameCharacter.Hero.DECKDRAW = SelectedGameCharacter.Hero.DECK;
             Debug.Log("Hero Created");
-            //Debug.LogError("Hero not created!");
+
+            Hp.text = SelectedGameCharacter.Hero.MAXHP.ToString();
+            HeroSprite.sprite = SelectedGameCharacter.HeroSprite;
+
+            SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
+            SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS); 
         }
+        
+        //Debug.LogError("Hero not created!");
+    }
+    public void CreateEnemy()
+    {
+        
     }
     public static void BattleStartTrigger()
     {
@@ -45,7 +62,7 @@ public class BattleControl : MonoBehaviour
         {
             action?.Invoke();
         }
-        SelectedGameCharacter.Hero.DECKDRAW = SelectedGameCharacter.Hero.DECK;
+        SelectedGameCharacter.Hero.DECKDRAW.CARDS = SelectedGameCharacter.Hero.DECK.CARDS;
     }
     public static void TurnStartTrigger()
     {
@@ -59,10 +76,11 @@ public class BattleControl : MonoBehaviour
     public void TurnHero()
     {
         TurnStartTrigger();
-        Debug.Log(SelectedGameCharacter.Hero.HANDDRAW);
-        SelectedGameCharacter.Hero.Draw(SelectedGameCharacter.Hero.HANDDRAW);
-        TempDeck = SelectedGameCharacter.Hero.HAND;
-        DisplayHandCards(TempDeck);
+        Debug.Log("Добор героя " + SelectedGameCharacter.Hero.HANDDRAW);
+        Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+        SelectedGameCharacter.Hero.Draw();
+        Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+        DisplayHandCards(SelectedGameCharacter.Hero.HAND);
     }
     private void DisplayHandCards(AbstractDeck deck)
     {
@@ -105,7 +123,7 @@ public class BattleControl : MonoBehaviour
         }
     }
 
-    private void SetupCardUI(Transform cardTransform, AbstractCards card)
+    private void SetupCardUI(Transform cardTransform, AbstractCard card)
     {
         Text description = cardTransform.Find("Description")?.GetComponent<Text>();
         Image cardImage = cardTransform.Find("CardPicture")?.GetComponent<Image>();

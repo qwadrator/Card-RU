@@ -7,7 +7,7 @@ namespace Cards {
 			"berserk",
 			100,
 			new HeroDeck1(),
-			10)
+			5)
 		{
 			this.Description = "Воин бьет дубинкой, постоянно изменяет SP карт";
 		}

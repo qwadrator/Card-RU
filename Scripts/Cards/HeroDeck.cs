@@ -16,11 +16,11 @@ namespace Cards {
 			this.CARDS.Add(new DefaultDefenseCard());
 		}
 
-		public void AddCardToDeck(AbstractCards card) {
+		public void AddCardToDeck(AbstractCard card) {
 			this.CARDS.Add(card);
 		}
 
-		public void RemoveCardFromDeck(AbstractCards card) {
+		public void RemoveCardFromDeck(AbstractCard card) {
 			int index = CARDS.FindIndex(c => c.NAME == card.NAME);
 			if (index != -1) {
 				this.CARDS.Remove(CARDS[index]);

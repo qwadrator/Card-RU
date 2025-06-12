@@ -6,7 +6,7 @@ public class CardDisplayManager : MonoBehaviour
 {
     public GameObject cardPrefab;
     
-    public void DisplayCards(AbstractCards[] cards, Transform parentTransform, bool needClear)
+    public void DisplayCards(AbstractCard[] cards, Transform parentTransform, bool needClear)
     {
         if (cards == null || parentTransform == null)
         {
@@ -23,7 +23,7 @@ public class CardDisplayManager : MonoBehaviour
 
         for (int i = 0; i < cards.Length; i++)
         {
-            AbstractCards card = cards[i];
+            AbstractCard card = cards[i];
             GameObject cardInstance = Instantiate(cardPrefab, parentTransform);
             Transform cardFull = cardInstance.transform;
 
@@ -33,7 +33,7 @@ public class CardDisplayManager : MonoBehaviour
         }
     }
 
-    private void SetupCardUI(Transform cardTransform, AbstractCards card)
+    private void SetupCardUI(Transform cardTransform, AbstractCard card)
     {
         Text description = cardTransform.Find("Description")?.GetComponent<Text>();
         Image cardImage = cardTransform.Find("CardPicture")?.GetComponent<Image>();

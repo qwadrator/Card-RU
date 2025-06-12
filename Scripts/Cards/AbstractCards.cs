@@ -2,11 +2,12 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 namespace Cards {
-	public abstract class AbstractCards {
+	public abstract class AbstractCard
+	{
 
-		public string ID { get; set;}
-		public string NAME { get;  set;}		
-		public string IMG { get;  set;}
+		public string ID { get; set; }
+		public string NAME { get; set; }
+		public string IMG { get; set; }
 
 		public int SP { get; set; }
 		public CardType TYPE { get; set; }
@@ -15,7 +16,7 @@ namespace Cards {
 		//public CardRarity Rarity { get; protected set; }
 		public CardTarget TARGET { get; set; }
 
-		public AbstractCards(
+		public AbstractCard(
 							string id,
 							string name,
 							string img,
@@ -24,19 +25,22 @@ namespace Cards {
 							CardType type,
 							//CardColor color,
 							//CardRarity rarity,
-							CardTarget target) {
-								this.ID = id;
-								this.NAME = name;
-								this.IMG = img;
-								this.SP = sp;
-								this.RAWDESCRIPTION  = rawDescription;
-								this.TYPE = type;
-								//Color = color;
-								//Rarity = rarity;
-								this.TARGET = target;
-							}
-	public void Print(){
-		System.Console.WriteLine(this.NAME + " SP: " + this.SP+ " Описание: " + this.RAWDESCRIPTION);
-	}
+							CardTarget target)
+		{
+			this.ID = id;
+			this.NAME = name;
+			this.IMG = img;
+			this.SP = sp;
+			this.RAWDESCRIPTION = rawDescription;
+			this.TYPE = type;
+			//Color = color;
+			//Rarity = rarity;
+			this.TARGET = target;
+		}
+		public void Print()
+		{
+			System.Console.WriteLine(this.NAME + " SP: " + this.SP + " Описание: " + this.RAWDESCRIPTION);
+		}
+	 public abstract AbstractCard Copy();
 	}
 }

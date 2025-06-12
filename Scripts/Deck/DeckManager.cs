@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cards;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class DeckManager : MonoBehaviour
 {
     public GameObject cardPrefab;
     public Transform parentTransform;
     public GameObject DECK;
-    public GameObject HeroSprite;
+    public List<GameObject> ObjectsForHide;
 
     private void Start()
     {
@@ -41,7 +42,7 @@ public class DeckManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (AbstractCards Card in Deck.CARDS)
+        foreach (AbstractCard Card in Deck.CARDS)
         {
             GameObject cardInstance = Instantiate(cardPrefab, parentTransform);
             Transform cardFull = cardInstance.transform;
@@ -75,19 +76,26 @@ public class DeckManager : MonoBehaviour
     }
     public void ToggleDeckView(AbstractDeck cards)
     {
+        if (DECK == null) Debug.Log("Null");
         if (DECK.activeSelf)
         {
             DECK.SetActive(false);
-            HeroSprite.SetActive(true);
+            foreach (GameObject Obj in ObjectsForHide)
+            {
+                Obj.SetActive(true);
+            }
             ClearDeck();
         }
-        else if (HeroSprite.activeSelf)
+        else if (ObjectsForHide[1].activeSelf)
         {
             if (SelectedGameCharacter.Hero != null)
             {
                 DisplayDeck(cards);
             }
-            HeroSprite.SetActive(false);
+            foreach (GameObject Obj in ObjectsForHide)
+            {
+                Obj.SetActive(false);
+            }
             DECK.SetActive(true);
         }
     }

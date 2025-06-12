@@ -5,6 +5,6 @@ public class NewGameStart : MonoBehaviour
 {
     public void NewGame()
     {
-        SceneManager.LoadScene("Battle");
+        GameManager.Instance.StartNewRun();
     }
 }
