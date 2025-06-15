@@ -1,5 +1,6 @@
 namespace Cards {
-    public enum CardTarget {
+    public enum CardTarget
+    {
         SELF,
         ENEMY,
         ALL_ENEMY,
@@ -7,6 +8,7 @@ namespace Cards {
         ALL_YOUR_CARDS,
         ENEMY_CARD,
         ALL_ENEMY_CARDS,
-        HERO
+        HERO,
+        All
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.ComponentModel;
 using Scripts.Effects;
+using UnityEngine;
 namespace Cards {
 	public partial class Hero1 : AbstractGameCharacter
 	{
@@ -14,9 +15,9 @@ namespace Cards {
 		{
 			this.Description = "Воин бьет дубинкой, постоянно изменяет SP карт";
 		}
-        public override void HeroEvents()
-        {
-            EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(50),"OnTurnStart", oneTime: false);
+		public override void HeroEvents()
+		{
+			EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(50), "OnTurnStart", oneTime: false);
         }
 	}
 }

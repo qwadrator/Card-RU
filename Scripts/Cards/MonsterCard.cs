@@ -1,16 +1,13 @@
+
 using System.IO;
 using Cards.ICardInterfaces;
+using UnityEngine;
 namespace Cards {
 	public class MonsterCard : AbstractCard, IActionOne
 	{
 		public int DAMAGE = 5;
 		public MonsterCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "Red Button", 0, "Дает 5 защиты", CardType.ATTACK, CardTarget.ENEMY)
 		{
-		}
-
-		public void Use(AbstractGameCharacter m, AbstractGameCharacter h)
-		{
-			//new AttackAction(h,m,DAMAGE);
 		}
 		public override AbstractCard Copy()
 		{
@@ -24,8 +21,12 @@ namespace Cards {
 		{
 			this.DAMAGE += 5;
 		}
-		public override void Use()
-        {
-        }
+		public override void Use(AbstractGameCharacter Hero, AbstractGameCharacter Monster)
+		{
+			//new AttackAction(h,m,DAMAGE);
+			Debug.Log("DAMAGE DEALT TO HERO " + DAMAGE);
+			Hero.Damage(DAMAGE);
+			Debug.Log(Hero.TEMPHP);
+		}
 	}
 }

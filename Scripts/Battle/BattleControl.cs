@@ -10,6 +10,7 @@ public class BattleControl : MonoBehaviour
     [Header("Hero")]
     public GameObject HandHero;
     public List<Text> HpHero;
+    public Text MaxHpHero;
     public Image HeroSprite;
     public GameObject cardPrefab;
 
@@ -24,9 +25,39 @@ public class BattleControl : MonoBehaviour
     
     void Start()
     {
+        CheckEvents();
         CharacterCheck();
         BattleStartTrigger();
         TurnHero();
+    }
+    public void CheckEvents()
+    {
+        if (EventManager.ShowBlock.Count == 0 && EventManager.ShowDMG.Count == 0)
+        {
+            Debug.Log("Event ADD");
+            EventManager.AddEvent(ShowDamage, "ShowDMG");
+            //EventManager.AddEvent(ShowBlock, "OnGainBlocWithParams");
+        }
+    }
+    private void ShowDamage(object[] args)
+    {
+        AbstractGameCharacter target = (AbstractGameCharacter)args[0];
+        int damage = (int)args[1];
+        Debug.Log($"Показываем урон: {damage} на {target.NAME}");
+        if (target.DECK.OWN == Owner.Player)
+        {
+            HpHero[0].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+            HpHero[1].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+            if (SelectedGameCharacter.Hero.TEMPHP <= 0) EndGame();
+        }
+        else
+        {
+            HpEnemy.text = Enemies.Enemy.TEMPHP.ToString();
+        }
+    }
+    public void EndGame()
+    {
+        Debug.LogError("YOU DIE");
     }
     public void CharacterCheck()
     {
@@ -37,10 +68,13 @@ public class BattleControl : MonoBehaviour
     {
         if (SelectedGameCharacter.Hero != null)
         {
-            HpHero[0].text = SelectedGameCharacter.Hero.MAXHP.ToString();
-            HpHero[1].text = SelectedGameCharacter.Hero.MAXHP.ToString();
+            MaxHpHero.text = "/" + SelectedGameCharacter.Hero.MAXHP.ToString();
+            HpHero[0].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+            HpHero[1].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
             HeroSprite.sprite = SelectedGameCharacter.HeroSprite;
+
             SelectedGameCharacter.Hero.HeroEvents();
+
 
             SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
             SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
@@ -50,8 +84,9 @@ public class BattleControl : MonoBehaviour
             SelectedGameCharacter.Hero = new Hero1();
             Debug.Log("Hero Created");
 
-            HpHero[0].text = SelectedGameCharacter.Hero.MAXHP.ToString();
-            HpHero[1].text = SelectedGameCharacter.Hero.MAXHP.ToString();
+            MaxHpHero.text = "/" + SelectedGameCharacter.Hero.MAXHP.ToString();
+            HpHero[0].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+            HpHero[1].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
             HeroSprite.sprite = SelectedGameCharacter.HeroSprite;
             SelectedGameCharacter.Hero.HeroEvents();
 
@@ -111,7 +146,7 @@ public class BattleControl : MonoBehaviour
     public void DrawCards()
     {
         Debug.Log("Добор героя " + SelectedGameCharacter.Hero.HANDDRAW);
-        Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+        //Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
         SelectedGameCharacter.Hero.Draw();
         //Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
         DisplayHandCards(SelectedGameCharacter.Hero.HAND, HandHero, 1200f);
@@ -188,14 +223,22 @@ public class BattleControl : MonoBehaviour
     public void EndTurn()
     {
         EnemyTurn();
+        DiscardCards(); 
+        TurnHero();
+    }
+    public void DiscardCards()
+    {
+        SelectedGameCharacter.Hero.Discard();
+        Enemies.Enemy.Discard();
     }
 
     public void EnemyTurn()
     {
+        Debug.Log(Enemies.Enemy.HAND.CARDS.Count);
         foreach (AbstractCard card in Enemies.Enemy.HAND.CARDS)
         {
-            card.Use();
+            Debug.Log("CARD USED");
+            card.Use(SelectedGameCharacter.Hero, Enemies.Enemy);
         }
-        TurnHero();
     }
 }

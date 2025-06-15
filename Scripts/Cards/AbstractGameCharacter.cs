@@ -37,8 +37,18 @@ namespace Cards {
 			
 			ActiveEffects = new List<Effects>();
 		}
-		public void Damage(int D) {
+		public void Damage(int D)
+		{
 			this.TEMPHP -= D;
+			if (EventManager.OnDamageGet != null && EventManager.OnDamageGet.Count > 0)
+			{
+				Debug.LogError("ТУТ ДОЛЖЕН БЫТЬ 0");
+				for (int j = EventManager.OnDamageGet.Count - 1; j >= 0; j--)
+				{
+					EventManager.OnDamageGet[j]?.Invoke();
+				}
+			}
+			EventManager.TriggerEvent("ShowDMG", this, D);
 		}
 		public void ApplyEffect(Effects effect)
 		{
@@ -64,7 +74,7 @@ namespace Cards {
 						EventManager.OnCardDraw[j]?.Invoke();
 					}
 				}
-				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+				//Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
 				if (DECKDRAW.IsNotNull() || DECKDRAW.CARDS.Count != 0)
 				{
 					HAND.AddCard(DECKDRAW.CARDS.Last());
@@ -75,7 +85,7 @@ namespace Cards {
 				{
 					if (DECKDISCARD.IsNotNull())
 					{
-						DECKDRAW = DECKDISCARD;
+						AddCardDrawFromDiscard();
 						DECKDISCARD.RemoveAllCards();
 						i--;
 					}
@@ -84,13 +94,36 @@ namespace Cards {
 						Debug.LogError("Ошибка добора обратитесь к создателям богам нашим");
 					}
 				}
-				Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+				//Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+			}
+		}
+		public void Discard()
+		{
+			for (int i = HAND.Count(); i > 0; i--)
+			{
+				DECKDISCARD.AddCard(HAND.CARDS.Last());
+				HAND.CARDS.Remove(HAND.CARDS.Last());
+			}
+		}
+		public void AddCardDrawFromDiscard()
+		{
+			for (int i = DECKDISCARD.Count(); i > 0; i--)
+			{
+				DECKDRAW.AddCard(DECKDISCARD.CARDS.Last());
+				DECKDISCARD.CARDS.Remove(DECKDISCARD.CARDS.Last());
 			}
 		}
 		public abstract void HeroEvents();
 		public void GainBlock(int count)
 		{
 			this.BLOCK += count;
+			if (EventManager.OnBlockGain == null || EventManager.OnBlockGain.Count == 0)
+			{
+				for (int j = EventManager.OnBlockGain.Count - 1; j >= 0; j--)
+				{
+					EventManager.OnBlockGain[j]?.Invoke();
+				}
+			}
 		}
 	}
 }

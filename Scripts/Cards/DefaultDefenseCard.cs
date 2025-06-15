@@ -25,9 +25,11 @@ namespace Cards{
 			this.BLOCK += 5;
 			DescriptionChange();
 		}
-		public override void Use()
-        {
-        }
+		public override void Use(AbstractGameCharacter Hero, AbstractGameCharacter Monster)
+		{
+			//new AttackAction(h,m,DAMAGE);
+			Hero.GainBlock(BLOCK);
+		}
 		public void DescriptionChange()
 		{
 			rawDescriptionChange("Защищает на: " + BLOCK + "хп");

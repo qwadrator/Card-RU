@@ -8,12 +8,11 @@ namespace Cards {
 		public DefaultAttackCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "Bear", 0, "Наносит пока что 7 урона", CardType.ATTACK, CardTarget.ENEMY)
 		{
 		}
-		/*
-		public void Use(AbstractMonster m, AbstractHero h)
+		public override void Use(AbstractGameCharacter Hero, AbstractGameCharacter Monster)
 		{
-			new AttackAction(h,m,DAMAGE);
+			//new AttackAction(h,m,DAMAGE);
+			Monster.Damage(DAMAGE);
 		}
-		*/
 		public override AbstractCard Copy()
 		{
 			return new DefaultAttackCard() { DAMAGE = this.DAMAGE };
@@ -26,11 +25,9 @@ namespace Cards {
 		public override void SpMin()
 		{
 			this.DAMAGE += 5;
+			TargetSet(CardTarget.All);
 			DescriptionChange();
 		}
-        public override void Use()
-        {
-        }
 		public void DescriptionChange()
 		{
 			rawDescriptionChange("Наносит: " + DAMAGE + "урона");

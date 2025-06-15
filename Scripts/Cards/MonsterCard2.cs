@@ -1,9 +1,10 @@
 using System.IO;
 using Cards.ICardInterfaces;
+using UnityEngine;
 namespace Cards {
 	public class MonsterCard2 : AbstractCard, ISelf
 	{
-		public int Block = 5;
+		public int BLOCK = 5;
 		public MonsterCard2() : base("MonterBlockCardID", "MonterBlockCardID", "SingingMachineCrop", 0, "Наносит 5 урона", CardType.SKILL, CardTarget.SELF)
 		{
 		}
@@ -13,18 +14,21 @@ namespace Cards {
 		}
 		public override AbstractCard Copy()
 		{
-			return new MonsterCard2() { Block = this.Block };
+			return new MonsterCard2() { BLOCK = this.BLOCK };
 		}
 		public override void SpMax()
 		{
-			this.Block += 3;
+			this.BLOCK += 3;
 		}
 		public override void SpMin()
 		{
-			this.Block += 5;
+			this.BLOCK += 5;
 		}
-		public override void Use()
-        {
-        }
+		public override void Use(AbstractGameCharacter Hero, AbstractGameCharacter Monster)
+		{
+			//new AttackAction(h,m,DAMAGE);
+			Debug.Log("MONSTER GAIN BLOCK " + BLOCK);
+			Monster.GainBlock(BLOCK);
+		}
 	}
 }

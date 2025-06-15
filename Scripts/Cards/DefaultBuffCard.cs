@@ -19,9 +19,10 @@ namespace Cards{
 		public override void SpMax()
 		{
 		}
-		public override void Use()
-        {
-        }
+		public override void Use(AbstractGameCharacter Hero, AbstractGameCharacter Monster)
+		{
+			//new AttackAction(h,m,DAMAGE);
+		}
         public override void SpMin()
 		{
 		}

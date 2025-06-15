@@ -43,6 +43,10 @@ namespace Cards {
 		{
 			System.Console.WriteLine(this.NAME + " SP: " + this.SP + " Описание: " + this.RAWDESCRIPTION);
 		}
+		public void TargetSet(CardTarget target)
+		{
+			this.TARGET = target;
+		}
 		public void SPchange(int count)
 		{
 			this.SP += count;
@@ -61,7 +65,7 @@ namespace Cards {
 		}
 		public abstract void SpMax();
 		public abstract void SpMin();
-		public abstract void Use();
+		public abstract void Use(AbstractGameCharacter Hero, AbstractGameCharacter Enemy);
 	 	public abstract AbstractCard Copy();
 	}
 }
