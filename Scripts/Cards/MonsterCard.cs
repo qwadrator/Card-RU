@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Cards {
 	public class MonsterCard : AbstractCard, IActionOne
 	{
-		public int DAMAGE = 5;
-		public MonsterCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "Red Button", 0, "Дает 5 защиты", CardType.ATTACK, CardTarget.ENEMY)
+		public int DAMAGE = 9;
+		public MonsterCard() : base("DeffaultAttackCardID", "DeffaultAttackCard", "Red Button", 0, "Наносит 9 урона", CardType.ATTACK, CardTarget.ENEMY)
 		{
 		}
 		public override AbstractCard Copy()

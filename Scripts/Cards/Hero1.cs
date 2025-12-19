@@ -13,11 +13,23 @@ namespace Cards {
 			new HeroDeck1(),
 			5)
 		{
-			this.Description = "Воин бьет дубинкой, постоянно изменяет SP карт";
+			this.Description = "Воин бьет дубинкой, постоянно изменяет SP карт.В начале каждого хода повышает SP первой вытянутой карты до максимума.";
 		}
 		public override void HeroEvents()
 		{
-			EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(50), "OnTurnStart", oneTime: false);
+			BaseEvents();
+			EventManager.AddEvent(() =>
+			{
+				if (SelectedGameCharacter.Hero.DECKDRAW.CARDS.Count > 0)
+				{
+					SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(50);
+				}
+				else
+				{
+					Debug.LogError("0 Карт в стопки добора ТРЕБУЕТСЯ ФИКС");
+				}
+			}
+			, "OnTurnStart", oneTime: false);
         }
 	}
 }

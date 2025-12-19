@@ -5,7 +5,7 @@ namespace Cards {
 	public class MonsterCard2 : AbstractCard, ISelf
 	{
 		public int BLOCK = 5;
-		public MonsterCard2() : base("MonterBlockCardID", "MonterBlockCardID", "SingingMachineCrop", 0, "Наносит 5 урона", CardType.SKILL, CardTarget.SELF)
+		public MonsterCard2() : base("MonterBlockCardID", "MonterBlockCardID", "SingingMachineCrop", 0, "Дает 5 блока", CardType.SKILL, CardTarget.SELF)
 		{
 		}
 

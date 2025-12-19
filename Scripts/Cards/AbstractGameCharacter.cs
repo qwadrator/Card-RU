@@ -8,20 +8,21 @@ using Unity.VisualScripting;
 using System.Collections;
 
 namespace Cards {
-	public abstract partial class AbstractGameCharacter{
-		public string NAME{ get; protected set; }
-		public int MAXHP{ get; protected set; }
-		public int TEMPHP{ get; protected set; }
+	public abstract partial class AbstractGameCharacter
+	{
+		public string NAME { get; protected set; }
+		public int MAXHP { get; protected set; }
+		public int TEMPHP { get; protected set; }
 		public int BLOCK = 0;
 		public AbstractDeck DECK { get; protected set; }
-		public AbstractDeck HAND{ get; set; }
-		public AbstractDeck DECKDRAW { get; set; } 
+		public AbstractDeck HAND { get; set; }
+		public AbstractDeck DECKDRAW { get; set; }
 		public AbstractDeck DECKDISCARD { get; set; }
-		public AbstractDeck DECKBURN { get;  set; }
-		public int HANDDRAW  { get; protected set; }
+		public AbstractDeck DECKBURN { get; set; }
+		public int HANDDRAW { get; protected set; }
 		public List<Effects> ActiveEffects { get; set; }
 		public string Description { get; set; }
-		
+
 		public AbstractGameCharacter(string name, int Hp, AbstractDeck deck, int HandDraw)
 		{
 			this.NAME = name;
@@ -29,25 +30,50 @@ namespace Cards {
 			this.TEMPHP = Hp;
 			this.HANDDRAW = HandDraw;
 			this.DECK = new SomeDeck(Owner.Player);
-			this.DECK.CARDS.AddRange(deck.CARDS); 
+			this.DECK.CARDS.AddRange(deck.CARDS);
 			this.DECKDRAW = new SomeDeck(Owner.Player);
 			this.HAND = new SomeDeck(Owner.Player);
 			this.DECKDISCARD = new SomeDeck(Owner.Player);
 			this.DECKBURN = new SomeDeck(Owner.Player);
-			
+
 			ActiveEffects = new List<Effects>();
+		}
+		public void HPchange(int Count)
+		{
+			this.TEMPHP += Count;
+			if (Count < 0)
+			{
+				if (EventManager.OnDamageGet != null && EventManager.OnDamageGet.Count > 0)
+				{
+					Debug.LogError("ТУТ ДОЛЖЕН БЫТЬ 0");
+					for (int j = EventManager.OnDamageGet.Count - 1; j >= 0; j--)
+					{
+						EventManager.OnDamageGet[j]?.Invoke();
+					}
+				}
+			}
+			EventManager.TriggerEvent("ShowDMG", this, Count);
 		}
 		public void Damage(int D)
 		{
-			this.TEMPHP -= D;
-			if (EventManager.OnDamageGet != null && EventManager.OnDamageGet.Count > 0)
+			if (this.BLOCK - D < 0)
 			{
-				Debug.LogError("ТУТ ДОЛЖЕН БЫТЬ 0");
-				for (int j = EventManager.OnDamageGet.Count - 1; j >= 0; j--)
+				this.TEMPHP += this.BLOCK - D;
+				if (EventManager.OnDamageGet != null && EventManager.OnDamageGet.Count > 0)
 				{
-					EventManager.OnDamageGet[j]?.Invoke();
+					Debug.LogError("ТУТ ДОЛЖЕН БЫТЬ 0");
+					for (int j = EventManager.OnDamageGet.Count - 1; j >= 0; j--)
+					{
+						EventManager.OnDamageGet[j]?.Invoke();
+					}
 				}
+				this.BLOCK = 0;
 			}
+			else
+			{
+				this.BLOCK -= D;
+			}
+			EventManager.TriggerEvent("ShowBlock");
 			EventManager.TriggerEvent("ShowDMG", this, D);
 		}
 		public void ApplyEffect(Effects effect)
@@ -87,6 +113,7 @@ namespace Cards {
 					{
 						AddCardDrawFromDiscard();
 						DECKDISCARD.RemoveAllCards();
+						DECKDRAW.Shuffle();
 						i--;
 					}
 					else
@@ -113,6 +140,14 @@ namespace Cards {
 				DECKDISCARD.CARDS.Remove(DECKDISCARD.CARDS.Last());
 			}
 		}
+		public bool CheckLIfe()
+		{
+			if (TEMPHP > 0)
+			{
+				return true;
+			}
+			else return false;
+		}
 		public abstract void HeroEvents();
 		public void GainBlock(int count)
 		{
@@ -124,6 +159,32 @@ namespace Cards {
 					EventManager.OnBlockGain[j]?.Invoke();
 				}
 			}
+			EventManager.TriggerEvent("ShowBlock");
+		}
+		public void BaseEvents()
+		{
+
+			Debug.Log("BASE EVENTS TRIGGERED");
+			EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.Shuffle(), "OnBattleStart", oneTime: false);
+			EventManager.AddEvent(() =>
+			{
+				Debug.Log("Добор героя " + SelectedGameCharacter.Hero.HANDDRAW);
+				//Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
+				SelectedGameCharacter.Hero.Draw();
+				Debug.Log("Добор Врага " + Enemies.Enemy.HANDDRAW);
+				Enemies.Enemy.Draw();
+			}
+			, "OnTurnStart", oneTime: false);
+			EventManager.AddEvent(() =>
+			{
+				SelectedGameCharacter.Hero.BLOCK = 0;
+			}
+			, "OnTurnStart", oneTime: false);
+			EventManager.AddEvent(() =>
+			{
+				Enemies.Enemy.BLOCK = 0;
+			}
+			, "OnTurnEnd", oneTime: false);
 		}
 	}
 }

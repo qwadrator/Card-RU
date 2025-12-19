@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 using JetBrains.Annotations;
+using Scripts.Effects;
 namespace Cards {
 	public abstract class AbstractCard
 	{
@@ -52,16 +53,28 @@ namespace Cards {
 			this.SP += count;
 			if (this.SP >= 50)
 			{
+				this.SP = 50;
 				SpMax();
 			}
-			else if (this.SP <= 50)
+			else if (this.SP <= -50)
 			{
+				this.SP = -50;
 				SpMin();
 			}
 		}
 		public void rawDescriptionChange(String Str)
 		{
 			this.RAWDESCRIPTION = Str;
+		}
+		public void BaseUse()
+		{
+			if (EventManager.OnCardPlay == null || EventManager.OnCardPlay.Count == 0)
+			{
+				for (int j = EventManager.OnCardPlay.Count - 1; j >= 0; j--)
+				{
+					EventManager.OnCardPlay[j]?.Invoke();
+				}
+			}
 		}
 		public abstract void SpMax();
 		public abstract void SpMin();

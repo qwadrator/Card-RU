@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cards;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Diagnostics;
 
 public class DeckManager : MonoBehaviour
 {
+    Stopwatch stopwatch = new Stopwatch();
     public GameObject cardPrefab;
     public Transform parentTransform;
     public GameObject DECK;
@@ -15,53 +16,54 @@ public class DeckManager : MonoBehaviour
     {
         if (gameObject.name == "Deck" && gameObject.scene.name != null)
         {
-            Debug.Log("DeckStart");
+            UnityEngine.Debug.Log("DeckStart");
             if (SelectedGameCharacter.Hero != null)
             {
-                Debug.Log("Создаем колоду!");
+                UnityEngine.Debug.Log("Создаем колоду!");
                 AbstractDeck Deck = SelectedGameCharacter.Hero.DECK;
                 DisplayDeck(Deck);
 
             }
             else
             {
-                Debug.LogError("Герой не найден!");
+                UnityEngine.Debug.LogError("Герой не найден!");
                 DisplayDeck(new HeroDeck1());
             }
         }
     }
     public void DisplayDeck(AbstractDeck Deck)
     {
+        stopwatch.Start();
         if (Deck == null || Deck.CARDS == null)
         {
-            Debug.LogError("Колода пуста или не задана!");
+            UnityEngine.Debug.LogError("Колода пуста или не задана!");
             return;
         }
-
         foreach (Transform child in parentTransform)
         {
             Destroy(child.gameObject);
         }
-        foreach (AbstractCard Card in Deck.CARDS)
+        for (int i = 0; i<Deck.CARDS.Count;i++)
         {
+            AbstractCard Card = Deck.CARDS[i];
             GameObject cardInstance = Instantiate(cardPrefab, parentTransform);
             Transform cardFull = cardInstance.transform;
 
-            int cardIndex = cardFull.GetSiblingIndex();
-            //Debug.Log(cardIndex);
-            cardFull.localPosition += new Vector3(cardIndex % 6 * 290f, (int)(cardIndex / 6) * -360f, 0);
+            //Debug.Log(SelectedGameCharacter.Hero.DECK.Count() + "  " + i);
+            cardFull.localPosition += new Vector3(i % 6 * 290f, (int)(i / 6) * -360f, 0);
 
-
+            Text SP = cardFull.Find("Sp")?.GetComponent<Text>();
             Text Description = cardFull.Find("Description")?.GetComponent<Text>();
             Image cardImage = cardFull.Find("CardPicture")?.GetComponent<Image>();
 
-            if (Description == null || cardImage == null)
+            if (Description == null || cardImage == null || SP == null)
             {
-                Debug.LogError("Не найдены компоненты в префабе!");
+                UnityEngine.Debug.LogError("Не найдены компоненты в префабе!");
                 Destroy(cardInstance);
                 continue;
             }
             Description.text = Card.RAWDESCRIPTION;
+            SP.text = Card.SP.ToString();
             Sprite loadedSprite = Resources.Load<Sprite>(Card.IMG);
             if (loadedSprite != null)
             {
@@ -69,14 +71,18 @@ public class DeckManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Не удалось загрузить спрайт: {Card.IMG}");
+                UnityEngine.Debug.LogError($"Не удалось загрузить спрайт: {Card.IMG}");
                 cardImage.color = Color.red;
             }
         }
+        stopwatch.Stop();
+        UnityEngine.Debug.Log($"Время выполнения: {stopwatch.Elapsed.TotalMilliseconds} ms");
+        UnityEngine.Debug.Log(Deck.CARDS.Count);
+        stopwatch.Reset();
     }
     public void ToggleDeckView(AbstractDeck cards)
     {
-        if (DECK == null) Debug.Log("Null");
+        if (DECK == null) UnityEngine.Debug.Log("Null");
         if (DECK.activeSelf)
         {
             DECK.SetActive(false);

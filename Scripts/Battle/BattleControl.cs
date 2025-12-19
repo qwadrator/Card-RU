@@ -11,6 +11,7 @@ public class BattleControl : MonoBehaviour
     public GameObject HandHero;
     public List<Text> HpHero;
     public Text MaxHpHero;
+    public GameObject HeroBlock;
     public Image HeroSprite;
     public GameObject cardPrefab;
 
@@ -19,10 +20,18 @@ public class BattleControl : MonoBehaviour
     [Header("Enemy")]
     public Text HpEnemy;
     public Image EnemySprite;
+    public GameObject EnemyBlock;
     public GameObject HandEnemy;
-    public float cardSpacing = 100f;
 
-    
+    [Space(20)]
+
+    [Header("Different")]
+    public float cardSpacing = 100f;
+    public GameObject Battle;
+    public GameObject ENDCONDITION;
+    public Text EndText;
+
+
     void Start()
     {
         CheckEvents();
@@ -36,7 +45,12 @@ public class BattleControl : MonoBehaviour
         {
             Debug.Log("Event ADD");
             EventManager.AddEvent(ShowDamage, "ShowDMG");
-            //EventManager.AddEvent(ShowBlock, "OnGainBlocWithParams");
+            EventManager.AddEvent(ShowBlock, "ShowBlock");
+            EventManager.AddEvent(() =>
+			{
+				BlockDisplay();
+			}
+			, "OnTurnStart", oneTime: false);
         }
     }
     private void ShowDamage(object[] args)
@@ -44,20 +58,32 @@ public class BattleControl : MonoBehaviour
         AbstractGameCharacter target = (AbstractGameCharacter)args[0];
         int damage = (int)args[1];
         Debug.Log($"Показываем урон: {damage} на {target.NAME}");
-        if (target.DECK.OWN == Owner.Player)
-        {
-            HpHero[0].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
-            HpHero[1].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
-            if (SelectedGameCharacter.Hero.TEMPHP <= 0) EndGame();
-        }
-        else
-        {
-            HpEnemy.text = Enemies.Enemy.TEMPHP.ToString();
-        }
+        HpHero[0].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+        HpHero[1].text = SelectedGameCharacter.Hero.TEMPHP.ToString();
+        BlockDisplay();
+        HpEnemy.text = Enemies.Enemy.TEMPHP.ToString();
+        CheckEndBattle();
     }
-    public void EndGame()
+    private void ShowBlock()
     {
-        Debug.LogError("YOU DIE");
+        BlockDisplay();
+    }
+    private void BlockDisplay()
+    {
+        Debug.Log("Display Started");
+        if (SelectedGameCharacter.Hero.BLOCK > 0)
+        {
+            Debug.Log("Display Block");
+            HeroBlock.GetComponent<Text>().text = SelectedGameCharacter.Hero.BLOCK.ToString();
+            HeroBlock.SetActive(true);
+        }
+        else HeroBlock.SetActive(false);
+        if (Enemies.Enemy.BLOCK > 0)
+        {
+            EnemyBlock.GetComponent<Text>().text = Enemies.Enemy.BLOCK.ToString();
+            EnemyBlock.SetActive(true);
+        }
+        else EnemyBlock.SetActive(false);
     }
     public void CharacterCheck()
     {
@@ -81,7 +107,7 @@ public class BattleControl : MonoBehaviour
         }
         else
         {
-            SelectedGameCharacter.Hero = new Hero1();
+            SelectedGameCharacter.Hero = new Hero2();
             Debug.Log("Hero Created");
 
             MaxHpHero.text = "/" + SelectedGameCharacter.Hero.MAXHP.ToString();
@@ -91,9 +117,9 @@ public class BattleControl : MonoBehaviour
             SelectedGameCharacter.Hero.HeroEvents();
 
             SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
-            SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS); 
+            SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
         }
-        
+
         //Debug.LogError("Hero not created!");
     }
     public void CreateEnemy()
@@ -115,7 +141,7 @@ public class BattleControl : MonoBehaviour
             HeroSprite.sprite = Enemies.EnemySprite;
 
             Enemies.Enemy.DECKDRAW.CARDS.Clear();
-            Enemies.Enemy.DECKDRAW.CARDS.AddRange(Enemies.Enemy.DECK.CARDS); 
+            Enemies.Enemy.DECKDRAW.CARDS.AddRange(Enemies.Enemy.DECK.CARDS);
         }
     }
     public static void BattleStartTrigger()
@@ -123,20 +149,35 @@ public class BattleControl : MonoBehaviour
         if (EventManager.OnBattleStart == null || EventManager.OnBattleStart.Count == 0)
             return;
         for (int j = EventManager.OnBattleStart.Count - 1; j >= 0; j--)
-		{
-			EventManager.OnBattleStart[j]?.Invoke();
-		}
-        SelectedGameCharacter.Hero.DECKDRAW.CARDS = SelectedGameCharacter.Hero.DECK.CARDS;
+        {
+            EventManager.OnBattleStart[j]?.Invoke();
+            Debug.Log("Battle Start Event Triggered");
+        }
+        SelectedGameCharacter.Hero.DECKDRAW.RemoveAllCards();
+        for (int i = 0; i < SelectedGameCharacter.Hero.DECK.Count(); i++)
+        {
+            SelectedGameCharacter.Hero.DECKDRAW.AddCard(SelectedGameCharacter.Hero.DECK.CARDS[i]);
+        }
     }
     public static void TurnStartTrigger()
     {
         if (EventManager.OnTurnStart == null || EventManager.OnTurnStart.Count == 0)
             return;
         for (int j = EventManager.OnTurnStart.Count - 1; j >= 0; j--)
-		{
+        {
             Debug.Log("OnTurnStart начат тут что-то есть");
-			EventManager.OnTurnStart[j]?.Invoke();
-		}
+            EventManager.OnTurnStart[j]?.Invoke();
+        }
+    }
+    public static void TurnEndTrigger()
+    {
+        if (EventManager.OnTurnEnd == null || EventManager.OnTurnEnd.Count == 0)
+            return;
+        for (int j = EventManager.OnTurnEnd.Count - 1; j >= 0; j--)
+        {
+            Debug.Log("OnTurnEnd начат тут что-то есть");
+            EventManager.OnTurnEnd[j]?.Invoke();
+        }
     }
     public void TurnHero()
     {
@@ -145,18 +186,18 @@ public class BattleControl : MonoBehaviour
     }
     public void DrawCards()
     {
-        Debug.Log("Добор героя " + SelectedGameCharacter.Hero.HANDDRAW);
         //Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
-        SelectedGameCharacter.Hero.Draw();
-        //Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
-        DisplayHandCards(SelectedGameCharacter.Hero.HAND, HandHero, 1200f);
 
-        Debug.Log("Добор Врага " + Enemies.Enemy.HANDDRAW);
-        Enemies.Enemy.Draw();
-        DisplayHandCards(Enemies.Enemy.HAND, HandEnemy, 540f);
+        DisplayHeroHand();
+        DisplayHandCards(Enemies.Enemy, HandEnemy, 540f);
     }
-    private void DisplayHandCards(AbstractDeck deck, GameObject Hand, float maxContainerWidth)
+    public void DisplayHeroHand()
     {
+        DisplayHandCards(SelectedGameCharacter.Hero, HandHero, 1200f);
+    }
+    private void DisplayHandCards(AbstractGameCharacter Character, GameObject Hand, float maxContainerWidth)
+    {
+        AbstractDeck deck = Character.HAND;
         foreach (Transform child in Hand.transform)
         {
             Destroy(child.gameObject);
@@ -190,8 +231,18 @@ public class BattleControl : MonoBehaviour
             GameObject cardInstance = Instantiate(cardPrefab, Hand.transform);
             float cardPositionX = startX + i * (cardWidth + spacing) + cardWidth / 2;
             cardInstance.transform.localPosition = new Vector3(cardPositionX, 0, 0);
-
+            //Debug.Log($"Карта {i}: SP = {deck.CARDS[i].SP}, имя = {deck.CARDS[i].NAME}");
             SetupCardUI(cardInstance.transform, deck.CARDS[i]);
+            CardClickHandler clickHandler = cardInstance.GetComponent<CardClickHandler>();
+            if (clickHandler == null)
+            {
+                clickHandler = cardInstance.AddComponent<CardClickHandler>();
+            }
+            if (deck.OWN == Owner.Player)
+            {
+               clickHandler.SetCard(deck.CARDS[i], Character);
+                clickHandler.EnableInteraction(true); 
+            }
         }
     }
 
@@ -200,16 +251,17 @@ public class BattleControl : MonoBehaviour
         Text description = cardTransform.Find("Description")?.GetComponent<Text>();
         Text SP = cardTransform.Find("Sp")?.GetComponent<Text>();
         Image cardImage = cardTransform.Find("CardPicture")?.GetComponent<Image>();
-
-        if (description == null || cardImage == null|| SP == null)
+        if (description == null || cardImage == null || SP == null)
         {
             Debug.LogError("Не найдены компоненты в префабе карты!");
             return;
         }
+
+        //Debug.Log(card.SP + "  SP КартЫ:");
         SP.text = card.SP.ToString();
         description.text = card.RAWDESCRIPTION;
         Sprite loadedSprite = Resources.Load<Sprite>(card.IMG);
-        
+
         if (loadedSprite != null)
         {
             cardImage.sprite = loadedSprite;
@@ -222,8 +274,9 @@ public class BattleControl : MonoBehaviour
     }
     public void EndTurn()
     {
+        TurnEndTrigger();
         EnemyTurn();
-        DiscardCards(); 
+        DiscardCards();
         TurnHero();
     }
     public void DiscardCards()
@@ -234,11 +287,44 @@ public class BattleControl : MonoBehaviour
 
     public void EnemyTurn()
     {
+
         Debug.Log(Enemies.Enemy.HAND.CARDS.Count);
         foreach (AbstractCard card in Enemies.Enemy.HAND.CARDS)
         {
             Debug.Log("CARD USED");
             card.Use(SelectedGameCharacter.Hero, Enemies.Enemy);
+            CheckEndBattle();
+        }
+    }
+    public void CheckEndBattle()
+    {
+        if (SelectedGameCharacter.Hero.CheckLIfe())
+        {
+            if (Enemies.Enemy.CheckLIfe())
+            {
+                return;
+            }
+            else
+            {
+                DisplayBattleEnd(true);
+            }
+        }
+        else
+        {
+            DisplayBattleEnd(false);
+        }
+    }
+    public void DisplayBattleEnd(bool win)
+    {
+        Battle.SetActive(false);
+        ENDCONDITION.SetActive(true);
+        if (win)
+        {
+            EndText.text = "You Win";
+        }
+        else
+        {
+            EndText.text = "You Lose";
         }
     }
 }

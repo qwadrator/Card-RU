@@ -17,7 +17,7 @@ namespace Scripts.Effects
         public static List<Action> OnBlockGain = new();
         public static List<Action> OnApplayDebaff = new();
 
-        public static List<Action<object[]>> ShowBlock = new();
+        public static List<Action> ShowBlock = new();
         public static List<Action<object[]>> ShowDMG = new();
 
         public static void AddEvent(Action action, string eventType, bool oneTime = false)
@@ -98,6 +98,7 @@ namespace Scripts.Effects
                 "OnDamageDeal" => OnDamageDeal,
                 "OnDamageGet" => OnDamageGet,
                 "OnApplayDebaff" => OnApplayDebaff,
+                "ShowBlock" => ShowBlock,
                 _ => null
             };
         }
@@ -106,7 +107,6 @@ namespace Scripts.Effects
         {
             return eventType switch
             {
-                "ShowBlock" => ShowBlock,
                 "ShowDMG" => ShowDMG,
                 _ => null
             };
