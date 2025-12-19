@@ -238,11 +238,8 @@ public class BattleControl : MonoBehaviour
             {
                 clickHandler = cardInstance.AddComponent<CardClickHandler>();
             }
-            if (handCards.Count > 2)
-            {
-                clickHandler.SetCard(handCards[i], Character);
-                clickHandler.EnableInteraction(true); 
-            }
+            clickHandler.SetCard(handCards[i], Character);
+            clickHandler.EnableInteraction(true); 
         }
     }
 
