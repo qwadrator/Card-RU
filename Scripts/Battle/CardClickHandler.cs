@@ -44,8 +44,8 @@ public class CardClickHandler : MonoBehaviour
         {
             Debug.Log($"Карта {card.NAME} использована!");
             card.Use(SelectedGameCharacter.Hero, Enemies.Enemy);
-            Char.DECKDISCARD.CARDS.Add(card);
-            Char.HAND.CARDS.Remove(card);
+            Char.DECKDISCARD.Add(card);
+            Char.HAND.Remove(card);
             Destroy(gameObject);
             EnableInteraction(false);
             battleControl.DisplayHeroHand();

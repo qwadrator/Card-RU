@@ -20,9 +20,9 @@ namespace Cards {
 			BaseEvents();
 			EventManager.AddEvent(() =>
 			{
-				if (SelectedGameCharacter.Hero.DECKDRAW.CARDS.Count > 0)
+				if (SelectedGameCharacter.Hero.DECKDRAW.Count > 0)
 				{
-					SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(50);
+					SelectedGameCharacter.Hero.DECKDRAW.Last().SPchange(50);
 				}
 				else
 				{

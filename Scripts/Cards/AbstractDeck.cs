@@ -5,7 +5,6 @@ using System.Linq;
 namespace Cards {
 	public abstract class AbstractDeck
 	{
-
 		public Owner OWN { get; set; }
 
 		public List<AbstractCard> CARDS { get; set; }

@@ -17,7 +17,7 @@ namespace Cards
         public override void HeroEvents()
         {
             BaseEvents();
-            EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.CARDS.Last().SPchange(-50),"OnTurnStart", oneTime: false);
+            EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.Last().SPchange(-50),"OnTurnStart", oneTime: false);
         }
     }
 }

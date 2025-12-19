@@ -18,7 +18,6 @@ namespace Cards {
 			this.CARDS.Add(new DefaultDefenseCard());
 			this.CARDS.Add(new DefaultDefenseCard());
 			this.CARDS.Add(new DefaultDefenseCard());
-
 			this.CARDS.Add(new DefaultAttackCard());
 			this.CARDS.Add(new DefaultAttackCard());
 			this.CARDS.Add(new DefaultAttackCard());
@@ -59,59 +58,6 @@ namespace Cards {
 			this.CARDS.Add(new DefaultDefenseCard());
 			this.CARDS.Add(new DefaultDefenseCard());
 			this.CARDS.Add(new DefaultDefenseCard());
-
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultAttackCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-			this.CARDS.Add(new DefaultDefenseCard());
-
 		}
 	}
 }

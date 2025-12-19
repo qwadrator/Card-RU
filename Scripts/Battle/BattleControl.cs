@@ -102,8 +102,8 @@ public class BattleControl : MonoBehaviour
             SelectedGameCharacter.Hero.HeroEvents();
 
 
-            SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
-            SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
+            SelectedGameCharacter.Hero.DECKDRAW.Clear();
+            SelectedGameCharacter.Hero.DECKDRAW.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
         }
         else
         {
@@ -116,8 +116,8 @@ public class BattleControl : MonoBehaviour
             HeroSprite.sprite = SelectedGameCharacter.HeroSprite;
             SelectedGameCharacter.Hero.HeroEvents();
 
-            SelectedGameCharacter.Hero.DECKDRAW.CARDS.Clear();
-            SelectedGameCharacter.Hero.DECKDRAW.CARDS.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
+            SelectedGameCharacter.Hero.DECKDRAW.Clear();
+            SelectedGameCharacter.Hero.DECKDRAW.AddRange(SelectedGameCharacter.Hero.DECK.CARDS);
         }
 
         //Debug.LogError("Hero not created!");
@@ -129,8 +129,8 @@ public class BattleControl : MonoBehaviour
             HpEnemy.text = Enemies.Enemy.MAXHP.ToString();
             EnemySprite.sprite = Enemies.EnemySprite;
 
-            Enemies.Enemy.DECKDRAW.CARDS.Clear();
-            Enemies.Enemy.DECKDRAW.CARDS.AddRange(Enemies.Enemy.DECK.CARDS);
+            Enemies.Enemy.DECKDRAW.Clear();
+            Enemies.Enemy.DECKDRAW.AddRange(Enemies.Enemy.DECK.CARDS);
         }
         else
         {
@@ -140,8 +140,8 @@ public class BattleControl : MonoBehaviour
             HpEnemy.text = Enemies.Enemy.MAXHP.ToString();
             HeroSprite.sprite = Enemies.EnemySprite;
 
-            Enemies.Enemy.DECKDRAW.CARDS.Clear();
-            Enemies.Enemy.DECKDRAW.CARDS.AddRange(Enemies.Enemy.DECK.CARDS);
+            Enemies.Enemy.DECKDRAW.Clear();
+            Enemies.Enemy.DECKDRAW.AddRange(Enemies.Enemy.DECK.CARDS);
         }
     }
     public static void BattleStartTrigger()
@@ -153,10 +153,10 @@ public class BattleControl : MonoBehaviour
             EventManager.OnBattleStart[j]?.Invoke();
             Debug.Log("Battle Start Event Triggered");
         }
-        SelectedGameCharacter.Hero.DECKDRAW.RemoveAllCards();
+        SelectedGameCharacter.Hero.DECKDRAW.Clear();
         for (int i = 0; i < SelectedGameCharacter.Hero.DECK.Count(); i++)
         {
-            SelectedGameCharacter.Hero.DECKDRAW.AddCard(SelectedGameCharacter.Hero.DECK.CARDS[i]);
+            SelectedGameCharacter.Hero.DECKDRAW.Add(SelectedGameCharacter.Hero.DECK.CARDS[i]);
         }
     }
     public static void TurnStartTrigger()
@@ -197,20 +197,20 @@ public class BattleControl : MonoBehaviour
     }
     private void DisplayHandCards(AbstractGameCharacter Character, GameObject Hand, float maxContainerWidth)
     {
-        AbstractDeck deck = Character.HAND;
+        List<AbstractCard> handCards = Character.HAND;
         foreach (Transform child in Hand.transform)
         {
             Destroy(child.gameObject);
         }
 
-        if (deck == null || deck.CARDS == null || deck.CARDS.Count == 0)
+        if (handCards == null || handCards.Count == 0)
         {
             Debug.Log("Нет карт для отображения в руке");
             return;
         }
 
         const float cardWidth = 200f;
-        int cardCount = deck.CARDS.Count;
+        int cardCount = handCards.Count;
 
         float availableSpace = maxContainerWidth - (cardCount * cardWidth);
         float spacing = 0f;
@@ -232,15 +232,15 @@ public class BattleControl : MonoBehaviour
             float cardPositionX = startX + i * (cardWidth + spacing) + cardWidth / 2;
             cardInstance.transform.localPosition = new Vector3(cardPositionX, 0, 0);
             //Debug.Log($"Карта {i}: SP = {deck.CARDS[i].SP}, имя = {deck.CARDS[i].NAME}");
-            SetupCardUI(cardInstance.transform, deck.CARDS[i]);
+            SetupCardUI(cardInstance.transform, handCards[i]);
             CardClickHandler clickHandler = cardInstance.GetComponent<CardClickHandler>();
             if (clickHandler == null)
             {
                 clickHandler = cardInstance.AddComponent<CardClickHandler>();
             }
-            if (deck.OWN == Owner.Player)
+            if (handCards.Count > 2)
             {
-               clickHandler.SetCard(deck.CARDS[i], Character);
+                clickHandler.SetCard(handCards[i], Character);
                 clickHandler.EnableInteraction(true); 
             }
         }
@@ -288,8 +288,8 @@ public class BattleControl : MonoBehaviour
     public void EnemyTurn()
     {
 
-        Debug.Log(Enemies.Enemy.HAND.CARDS.Count);
-        foreach (AbstractCard card in Enemies.Enemy.HAND.CARDS)
+        Debug.Log(Enemies.Enemy.HAND.Count);
+        foreach (AbstractCard card in Enemies.Enemy.HAND)
         {
             Debug.Log("CARD USED");
             card.Use(SelectedGameCharacter.Hero, Enemies.Enemy);

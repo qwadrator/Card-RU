@@ -20,21 +20,21 @@ public class DeckManager : MonoBehaviour
             if (SelectedGameCharacter.Hero != null)
             {
                 UnityEngine.Debug.Log("Создаем колоду!");
-                AbstractDeck Deck = SelectedGameCharacter.Hero.DECK;
-                DisplayDeck(Deck);
+                List<AbstractCard> cards = SelectedGameCharacter.Hero.DECK.CARDS;
+                DisplayDeck(cards);
 
             }
             else
             {
                 UnityEngine.Debug.LogError("Герой не найден!");
-                DisplayDeck(new HeroDeck1());
+                DisplayDeck(new HeroDeck1().CARDS);
             }
         }
     }
-    public void DisplayDeck(AbstractDeck Deck)
+    public void DisplayDeck(List<AbstractCard> cards)
     {
         stopwatch.Start();
-        if (Deck == null || Deck.CARDS == null)
+        if (cards == null)
         {
             UnityEngine.Debug.LogError("Колода пуста или не задана!");
             return;
@@ -43,9 +43,9 @@ public class DeckManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        for (int i = 0; i<Deck.CARDS.Count;i++)
+        for (int i = 0; i<cards.Count;i++)
         {
-            AbstractCard Card = Deck.CARDS[i];
+            AbstractCard Card = cards[i];
             GameObject cardInstance = Instantiate(cardPrefab, parentTransform);
             Transform cardFull = cardInstance.transform;
 
@@ -77,10 +77,10 @@ public class DeckManager : MonoBehaviour
         }
         stopwatch.Stop();
         UnityEngine.Debug.Log($"Время выполнения: {stopwatch.Elapsed.TotalMilliseconds} ms");
-        UnityEngine.Debug.Log(Deck.CARDS.Count);
+        UnityEngine.Debug.Log(cards.Count);
         stopwatch.Reset();
     }
-    public void ToggleDeckView(AbstractDeck cards)
+    public void ToggleDeckView(List<AbstractCard> cards)
     {
         if (DECK == null) UnityEngine.Debug.Log("Null");
         if (DECK.activeSelf)

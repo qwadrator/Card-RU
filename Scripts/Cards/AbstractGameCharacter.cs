@@ -15,10 +15,10 @@ namespace Cards {
 		public int TEMPHP { get; protected set; }
 		public int BLOCK = 0;
 		public AbstractDeck DECK { get; protected set; }
-		public AbstractDeck HAND { get; set; }
-		public AbstractDeck DECKDRAW { get; set; }
-		public AbstractDeck DECKDISCARD { get; set; }
-		public AbstractDeck DECKBURN { get; set; }
+		public List<AbstractCard> HAND { get; set; }
+		public List<AbstractCard> DECKDRAW { get; set; }
+		public List<AbstractCard> DECKDISCARD { get; set; }
+		public List<AbstractCard> DECKBURN { get; set; }
 		public int HANDDRAW { get; protected set; }
 		public List<Effects> ActiveEffects { get; set; }
 		public string Description { get; set; }
@@ -31,10 +31,10 @@ namespace Cards {
 			this.HANDDRAW = HandDraw;
 			this.DECK = new SomeDeck(Owner.Player);
 			this.DECK.CARDS.AddRange(deck.CARDS);
-			this.DECKDRAW = new SomeDeck(Owner.Player);
-			this.HAND = new SomeDeck(Owner.Player);
-			this.DECKDISCARD = new SomeDeck(Owner.Player);
-			this.DECKBURN = new SomeDeck(Owner.Player);
+			this.DECKDRAW = new List<AbstractCard>();
+			this.HAND = new List<AbstractCard>();
+			this.DECKDISCARD = new List<AbstractCard>();
+			this.DECKBURN = new List<AbstractCard>();
 
 			ActiveEffects = new List<Effects>();
 		}
@@ -101,19 +101,19 @@ namespace Cards {
 					}
 				}
 				//Debug.Log("Количесво карт в колоде " + SelectedGameCharacter.Hero.DECK.Count());
-				if (DECKDRAW.IsNotNull() || DECKDRAW.CARDS.Count != 0)
+				if (DECKDRAW != null && DECKDRAW.Count != 0)
 				{
-					HAND.AddCard(DECKDRAW.CARDS.Last());
+					HAND.Add(DECKDRAW.Last());
 					//Debug.Log("СП последней карты:" + DECKDRAW.CARDS.Last().SP);
-					DECKDRAW.CARDS.Remove(DECKDRAW.CARDS.Last());
+					DECKDRAW.Remove(DECKDRAW.Last());
 				}
 				else
 				{
-					if (DECKDISCARD.IsNotNull())
+					if (DECKDISCARD != null && DECKDISCARD.Count > 0)
 					{
 						AddCardDrawFromDiscard();
-						DECKDISCARD.RemoveAllCards();
-						DECKDRAW.Shuffle();
+						DECKDISCARD.Clear();
+						ShuffleDeckDraw();
 						i--;
 					}
 					else
@@ -128,16 +128,30 @@ namespace Cards {
 		{
 			for (int i = HAND.Count(); i > 0; i--)
 			{
-				DECKDISCARD.AddCard(HAND.CARDS.Last());
-				HAND.CARDS.Remove(HAND.CARDS.Last());
+				DECKDISCARD.Add(HAND.Last());
+				HAND.Remove(HAND.Last());
 			}
 		}
 		public void AddCardDrawFromDiscard()
 		{
 			for (int i = DECKDISCARD.Count(); i > 0; i--)
 			{
-				DECKDRAW.AddCard(DECKDISCARD.CARDS.Last());
-				DECKDISCARD.CARDS.Remove(DECKDISCARD.CARDS.Last());
+				DECKDRAW.Add(DECKDISCARD.Last());
+				DECKDISCARD.Remove(DECKDISCARD.Last());
+			}
+		}
+
+		public void ShuffleDeckDraw()
+		{
+			System.Random rng = new System.Random();
+			int n = DECKDRAW.Count;
+			while (n > 1)
+			{
+				n--;
+				int k = rng.Next(n + 1);
+				AbstractCard value = DECKDRAW[k];
+				DECKDRAW[k] = DECKDRAW[n];
+				DECKDRAW[n] = value;
 			}
 		}
 		public bool CheckLIfe()
@@ -165,7 +179,13 @@ namespace Cards {
 		{
 
 			Debug.Log("BASE EVENTS TRIGGERED");
-			EventManager.AddEvent(() => SelectedGameCharacter.Hero.DECKDRAW.Shuffle(), "OnBattleStart", oneTime: false);
+			EventManager.AddEvent(() => 
+			{
+				if (SelectedGameCharacter.Hero.DECKDRAW != null)
+				{
+					SelectedGameCharacter.Hero.ShuffleDeckDraw();
+				}
+			}, "OnBattleStart", oneTime: false);
 			EventManager.AddEvent(() =>
 			{
 				Debug.Log("Добор героя " + SelectedGameCharacter.Hero.HANDDRAW);
